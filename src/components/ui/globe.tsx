@@ -18,18 +18,22 @@ const GLOBE_CONFIG: COBEOptions = {
   mapSamples: 16000,
   mapBrightness: 1.2,
   baseColor: [1, 1, 1],
-  markerColor: [13 / 255, 60 / 255, 97 / 255], // Changed to primary color (#0d3c61)
+  markerColor: [13 / 255, 60 / 255, 97 / 255], // Primary color (#0d3c61)
   glowColor: [1, 1, 1],
   markers: [
-    { location: [14.5995, 120.9842], size: 0.03 },
+    // Gold markers (using a gold color: #ffc107)
+    { location: [14.5995, 120.9842], size: 0.03, color: [255/255, 193/255, 7/255] },
     { location: [19.076, 72.8777], size: 0.1 },
-    { location: [23.8103, 90.4125], size: 0.05 },
+    // Silver markers (using a silver color: #aaadb0)
+    { location: [23.8103, 90.4125], size: 0.05, color: [170/255, 173/255, 176/255] },
     { location: [30.0444, 31.2357], size: 0.07 },
-    { location: [39.9042, 116.4074], size: 0.08 },
-    { location: [-23.5505, -46.6333], size: 0.1 },
+    { location: [39.9042, 116.4074], size: 0.08, color: [170/255, 173/255, 176/255] },
+    // Green markers (using a light green color: #8bc34a)
+    { location: [-23.5505, -46.6333], size: 0.1, color: [139/255, 195/255, 74/255] },
     { location: [19.4326, -99.1332], size: 0.1 },
-    { location: [40.7128, -74.006], size: 0.1 },
-    { location: [34.6937, 135.5022], size: 0.05 },
+    { location: [40.7128, -74.006], size: 0.1, color: [139/255, 195/255, 74/255] },
+    // Gold markers
+    { location: [34.6937, 135.5022], size: 0.05, color: [255/255, 193/255, 7/255] },
     { location: [41.0082, 28.9784], size: 0.06 },
   ],
 }
