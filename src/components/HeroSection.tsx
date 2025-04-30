@@ -3,10 +3,16 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import WhatsAppButton from './WhatsAppButton';
 import CircuitAnimation from './CircuitAnimation';
+import { GlobeDemo } from './ui/globe';
 
 const HeroSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden bg-white" id="hero">
+      {/* Add globe in background */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <GlobeDemo />
+      </div>
+      
       <div className="absolute inset-0 circuit-bg opacity-10 z-0"></div>
       
       <div className="container-section relative z-10">
