@@ -1,23 +1,12 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Handshake, Users, PiggyBank, Percent, ArrowRight } from 'lucide-react';
+import { Star, FileText, CheckCircle } from 'lucide-react';
+import FileX from './FileX';
+import HandShake from './HandShake';
 
 const CredibilitySection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [counters, setCounters] = useState({
-    cases: 0,
-    savings: 0,
-    clients: 0,
-    satisfaction: 0
-  });
-
-  const targetCounters = {
-    cases: 540,
-    savings: 70,
-    clients: 320,
-    satisfaction: 98
-  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -45,143 +34,113 @@ const CredibilitySection: React.FC = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (isVisible) {
-      const duration = 2000; // ms
-      const interval = 20; // ms
-      const steps = duration / interval;
-      let step = 0;
-      
-      const timer = setInterval(() => {
-        if (step < steps) {
-          setCounters({
-            cases: Math.round((targetCounters.cases / steps) * step),
-            savings: Math.round((targetCounters.savings / steps) * step),
-            clients: Math.round((targetCounters.clients / steps) * step),
-            satisfaction: Math.round((targetCounters.satisfaction / steps) * step)
-          });
-          step++;
-        } else {
-          setCounters(targetCounters);
-          clearInterval(timer);
-        }
-      }, interval);
-      
-      return () => clearInterval(timer);
-    }
-  }, [isVisible]);
-
-  const stats = [
-    {
-      icon: <FileX className="h-10 w-10 text-primary" />,
-      value: counters.cases,
-      label: "Casos Resolvidos",
-      suffix: "+"
-    },
-    {
-      icon: <Percent className="h-10 w-10 text-primary" />,
-      value: counters.savings,
-      label: "Economia em Multas e Juros",
-      suffix: "%"
-    },
-    {
-      icon: <Users className="h-10 w-10 text-primary" />,
-      value: counters.clients,
-      label: "Clientes Atendidos",
-      suffix: "+"
-    },
-    {
-      icon: <HandShake className="h-10 w-10 text-primary" />,
-      value: counters.satisfaction,
-      label: "Índice de Satisfação",
-      suffix: "%"
-    }
-  ];
-
   const testimonials = [
     {
-      text: "A abordagem tecnológica deles fez toda a diferença. Conseguimos uma redução impressionante e todo o processo foi extremamente transparente.",
-      author: "Carlos Mendes",
-      position: "Diretor Financeiro"
+      name: "Ricardo Martins",
+      company: "Comércio Eletrônico Ltda",
+      text: "Conseguimos reduzir 65% da nossa dívida tributária federal e voltamos a operar sem restrições. O processo foi muito mais rápido do que esperávamos graças à eficiência tecnológica desse escritório.",
+      stars: 5
     },
     {
-      text: "Eles analisaram nosso caso e encontraram oportunidades que outros escritórios não viram. O resultado foi muito além do que esperávamos.",
-      author: "Ana Paula Silva",
-      position: "Empresária"
+      name: "Marina Sousa",
+      company: "Indústria de Alimentos S/A",
+      text: "Estávamos muito preocupados com o bloqueio de contas que afetou nosso fluxo de caixa, mas em apenas 3 semanas conseguiram reverter a situação e estruturar um acordo vantajoso.",
+      stars: 5
     },
     {
-      text: "A rapidez e precisão da análise me impressionaram. Em poucos dias já tinham um plano completo para resolver nossas pendências.",
-      author: "Roberto Almeida",
-      position: "Contador"
+      name: "Paulo Mendes",
+      company: "Transportadora Express",
+      text: "A abordagem tecnológica para análise das nossas dívidas identificou inconsistências que nem sabíamos existir. Conseguimos reduzir significativamente o valor devido e negociar um parcelamento adequado ao nosso orçamento.",
+      stars: 5
     }
   ];
 
   return (
     <section 
       ref={sectionRef} 
-      className="bg-[#f9f9f9] py-16 md:py-24"
+      className="bg-white py-16 md:py-24"
       id="credibilidade"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className={`section-title ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-            Nossa Credibilidade
+            Por que Confiar em Nossa Abordagem
           </h2>
-          <p className={`section-subtitle max-w-3xl mx-auto ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{animationDelay: '200ms'}}>
-            Resultados comprovados e reconhecimento dos nossos clientes
+          <p className={`section-subtitle max-w-3xl mx-auto ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '200ms' }}>
+            Nossa metodologia combina experiência jurídica com tecnologia avançada,
+            trazendo resultados consistentes e inovadores.
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
-          {stats.map((stat, index) => (
-            <div 
-              key={index} 
-              className={`text-center ${isVisible ? 'animate-count-up' : 'opacity-0'}`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="inline-block bg-white rounded-full p-4 shadow-md mb-4">
-                {stat.icon}
-              </div>
-              <div className="text-4xl font-bold text-primary mb-2">
-                {stat.value}{stat.suffix}
-              </div>
-              <div className="text-gray-600">{stat.label}</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12 mb-16">
+          <div className={`text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '100ms' }}>
+            <div className="bg-primary/10 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-4">
+              <FileX className="h-10 w-10 text-primary" />
             </div>
-          ))}
+            <div className="text-4xl font-bold text-primary mb-2">98%</div>
+            <p className="text-gray-600">Taxa de sucesso em transações tributárias</p>
+          </div>
+          
+          <div className={`text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '300ms' }}>
+            <div className="bg-primary/10 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="h-10 w-10 text-primary" />
+            </div>
+            <div className="text-4xl font-bold text-primary mb-2">R$ 50M+</div>
+            <p className="text-gray-600">Em dívidas reduzidas nos últimos 2 anos</p>
+          </div>
+          
+          <div className={`text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '500ms' }}>
+            <div className="bg-primary/10 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-4">
+              <HandShake className="h-10 w-10 text-primary" />
+            </div>
+            <div className="text-4xl font-bold text-primary mb-2">200+</div>
+            <p className="text-gray-600">Empresas assessoradas com sucesso</p>
+          </div>
         </div>
 
-        {/* Testimonials */}
-        <h3 className={`text-2xl font-bold text-center mb-10 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{animationDelay: '500ms'}}>
-          O que nossos clientes dizem
-        </h3>
+        <div className="text-center mb-12">
+          <h3 className={`text-2xl font-bold text-primary mb-2 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '700ms' }}>
+            O que Nossos Clientes Dizem
+          </h3>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div 
-              key={index} 
-              className={`bg-white p-6 rounded-xl shadow-lg ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
-              style={{animationDelay: `${600 + index * 200}ms`}}
+            <div
+              key={index}
+              className={`glass-card overflow-hidden transition-all duration-500 ${
+                isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'
+              }`}
+              style={{ animationDelay: `${800 + index * 200}ms` }}
             >
-              <div className="mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 mr-1">★</span>
-                ))}
-              </div>
-              <p className="text-gray-600 mb-6 italic">"{testimonial.text}"</p>
-              <div>
-                <p className="font-bold text-primary">{testimonial.author}</p>
-                <p className="text-sm text-gray-500">{testimonial.position}</p>
+              <div className="p-6">
+                <div className="flex mb-4">
+                  {[...Array(testimonial.stars)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-highlight fill-highlight" />
+                  ))}
+                </div>
+                <p className="italic text-gray-600 mb-4">"{testimonial.text}"</p>
+                <div>
+                  <p className="font-semibold text-primary">{testimonial.name}</p>
+                  <p className="text-sm text-gray-500">{testimonial.company}</p>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        <div className={`mt-12 text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{animationDelay: '1200ms'}}>
-          <a href="#contato" className="inline-flex items-center text-primary font-medium hover:text-primary/80 transition-colors">
-            Fale com nossa equipe
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </a>
+        <div className="flex flex-wrap justify-center mt-16 items-center gap-8">
+          {['OAB', 'IBDT', 'IBA', 'ABIT'].map((logo, idx) => (
+            <div 
+              key={idx} 
+              className={`bg-white h-16 w-32 flex items-center justify-center rounded-lg shadow-sm ${
+                isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'
+              }`} 
+              style={{ animationDelay: `${1400 + idx * 100}ms` }}
+            >
+              <span className="text-gray-400 font-semibold">{logo}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
