@@ -125,7 +125,7 @@ export function Globe({
 export function GlobeDemo() {
   return (
     <div className="relative size-full max-w-full items-center justify-center overflow-hidden">
-      <Globe className="opacity-20" />
+      <Globe />
       <div className="pointer-events-none absolute inset-0 h-full bg-[radial-gradient(circle_at_50%_200%,rgba(0,0,0,0.2),rgba(255,255,255,0))]" />
     </div>
   )

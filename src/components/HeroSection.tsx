@@ -9,7 +9,7 @@ const HeroSection: React.FC = () => {
   return (
     <section className="relative overflow-hidden bg-white" id="hero">
       {/* Add globe in background */}
-      <div className="absolute inset-0 z-0 opacity-30">
+      <div className="absolute inset-0 z-0 opacity-50">
         <GlobeDemo />
       </div>
       
