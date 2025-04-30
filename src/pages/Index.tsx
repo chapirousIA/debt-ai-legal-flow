@@ -1,6 +1,5 @@
 
 import React, { useEffect } from 'react';
-import { Helmet } from 'react-helmet';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import ProblemSection from '@/components/ProblemSection';
@@ -12,6 +11,32 @@ import ScrollToTop from '@/components/ScrollToTop';
 
 const Index: React.FC = () => {
   useEffect(() => {
+    // Set document title directly instead of using react-helmet
+    document.title = "Resolva suas Dívidas Tributárias Federais | Advogados Especialistas";
+    
+    // Add meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Obtenha até 70% de desconto em multas e juros. Especialistas em transação tributária, execução fiscal e regularização de dívidas federais. Consulta gratuita!');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = 'Obtenha até 70% de desconto em multas e juros. Especialistas em transação tributária, execução fiscal e regularização de dívidas federais. Consulta gratuita!';
+      document.head.appendChild(meta);
+    }
+    
+    // Add meta keywords
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+      metaKeywords.setAttribute('content', 'transação tributária, execução fiscal, dívidas tributárias federais, advogado tributarista, PGFN');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'keywords';
+      meta.content = 'transação tributária, execução fiscal, dívidas tributárias federais, advogado tributarista, PGFN';
+      document.head.appendChild(meta);
+    }
+
+    // Set up intersection observer for reveal animations
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -34,12 +59,6 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Resolva suas Dívidas Tributárias Federais | Advogados Especialistas</title>
-        <meta name="description" content="Obtenha até 70% de desconto em multas e juros. Especialistas em transação tributária, execução fiscal e regularização de dívidas federais. Consulta gratuita!" />
-        <meta name="keywords" content="transação tributária, execução fiscal, dívidas tributárias federais, advogado tributarista, PGFN" />
-      </Helmet>
-      
       <Header />
       <main>
         <HeroSection />
