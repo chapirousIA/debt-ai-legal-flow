@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Mail, Phone, Calculator } from 'lucide-react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
@@ -312,6 +311,10 @@ const SimuladorTransacao: React.FC = () => {
           <h2 className="section-title reveal">Simulador de Transação Tributária</h2>
           <p className="section-subtitle max-w-3xl mx-auto reveal" data-direction="bottom">
             Simule os descontos possíveis para regularização de sua dívida ativa com a União
+          </p>
+          <p className="text-sm text-gray-600 mt-2 italic max-w-3xl mx-auto">
+            Esta é apenas uma simulação por estimativa baseada nas diversas possibilidades de descontos previstas na legislação.
+            Os valores reais podem variar de acordo com a análise individualizada do seu caso.
           </p>
         </div>
 
@@ -666,7 +669,6 @@ const SimuladorTransacao: React.FC = () => {
                     <WhatsAppButton 
                       text="Falar com um Especialista via WhatsApp" 
                       className="flex-1 bg-secondary hover:bg-secondary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium"
-                      message={`Olá! Simulei uma transação tributária para minha dívida de ${formatarMoeda(resultado.valorOriginal)} e gostaria de mais informações.`}
                     />
                     
                     <a
