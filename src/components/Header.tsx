@@ -37,7 +37,7 @@ const Header: React.FC = () => {
           <img 
             src="/lovable-uploads/31a95e6e-2cd7-434f-b17e-ab9d752c9274.png" 
             alt="Pedrosa Peixoto Advogados" 
-            className="h-12"
+            className="h-16 md:h-20" 
           />
         </a>
         
