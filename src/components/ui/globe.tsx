@@ -6,7 +6,14 @@ import { useCallback, useEffect, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
 
-const GLOBE_CONFIG: COBEOptions = {
+// Define o tipo para os marcadores
+interface Marker {
+  location: [number, number]
+  size: number
+  color?: [number, number, number]
+}
+
+const GLOBE_CONFIG: COBEOptions & { markers?: Marker[] } = {
   width: 800,
   height: 800,
   onRender: () => {},
@@ -43,7 +50,7 @@ export function Globe({
   config = GLOBE_CONFIG,
 }: {
   className?: string
-  config?: COBEOptions
+  config?: COBEOptions & { markers?: Marker[] }
 }) {
   let phi = 0
   let width = 0

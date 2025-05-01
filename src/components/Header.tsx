@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import WhatsAppButton from './WhatsAppButton';
+import LogoComponent from './LogoComponent';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,8 +34,8 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <a href="#" className="text-primary font-playfair font-bold text-2xl">
-          TRIBUTAX
+        <a href="#" className="text-primary font-playfair font-bold">
+          <LogoComponent />
         </a>
         
         {/* Desktop Navigation */}
