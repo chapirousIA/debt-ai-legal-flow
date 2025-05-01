@@ -8,6 +8,7 @@ import CredibilitySection from '@/components/CredibilitySection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
+import SimuladorTransacao from '@/components/SimuladorTransacao';
 
 const Index: React.FC = () => {
   useEffect(() => {
@@ -62,6 +63,7 @@ const Index: React.FC = () => {
       <Header />
       <main>
         <HeroSection />
+        <SimuladorTransacao />
         <ProblemSection />
         <SolutionSection />
         <CredibilitySection />
