@@ -12,7 +12,7 @@ import ScrollToTop from '@/components/ScrollToTop';
 const Index: React.FC = () => {
   useEffect(() => {
     // Set document title directly instead of using react-helmet
-    document.title = "Pedrosa Peixoto Advogados | Especialistas em Dívidas Tributárias Federais";
+    document.title = "Resolva suas Dívidas Tributárias Federais | Advogados Especialistas";
     
     // Add meta description
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -28,11 +28,11 @@ const Index: React.FC = () => {
     // Add meta keywords
     const metaKeywords = document.querySelector('meta[name="keywords"]');
     if (metaKeywords) {
-      metaKeywords.setAttribute('content', 'transação tributária, execução fiscal, dívidas tributárias federais, advogado tributarista, PGFN, Pedrosa Peixoto');
+      metaKeywords.setAttribute('content', 'transação tributária, execução fiscal, dívidas tributárias federais, advogado tributarista, PGFN');
     } else {
       const meta = document.createElement('meta');
       meta.name = 'keywords';
-      meta.content = 'transação tributária, execução fiscal, dívidas tributárias federais, advogado tributarista, PGFN, Pedrosa Peixoto';
+      meta.content = 'transação tributária, execução fiscal, dívidas tributárias federais, advogado tributarista, PGFN';
       document.head.appendChild(meta);
     }
 
