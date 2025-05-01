@@ -33,8 +33,12 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <a href="#" className="text-primary font-playfair font-bold text-2xl">
-          TRIBUTAX
+        <a href="#" className="text-primary">
+          <img 
+            src="/lovable-uploads/31a95e6e-2cd7-434f-b17e-ab9d752c9274.png" 
+            alt="Pedrosa Peixoto Advogados" 
+            className="h-12"
+          />
         </a>
         
         {/* Desktop Navigation */}
