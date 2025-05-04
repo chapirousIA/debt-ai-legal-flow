@@ -3,6 +3,8 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import WhatsAppButton from './WhatsAppButton';
 import CircuitAnimation from './CircuitAnimation';
+import { BackgroundPaths } from './ui/background-paths';
+import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
   return (
@@ -35,24 +37,33 @@ const HeroSection: React.FC = () => {
           </div>
           
           <div className="lg:w-1/2 relative">
-            <div className="relative z-10 animate-float">
-              <div className="bg-white/30 backdrop-blur-sm p-8 rounded-2xl border border-white/20 shadow-lg">
-                <CircuitAnimation />
-                <div className="mt-6 flex justify-center">
-                  <div className="flex flex-col items-center px-4">
-                    <div className="text-4xl font-bold text-primary">70%</div>
-                    <div className="text-sm text-gray-600">Redução em Multas</div>
-                  </div>
-                  <div className="flex flex-col items-center px-4 border-l border-gray-200">
-                    <div className="text-4xl font-bold text-primary">100%</div>
-                    <div className="text-sm text-gray-600">Análise Digital</div>
-                  </div>
-                  <div className="flex flex-col items-center px-4 border-l border-gray-200">
-                    <div className="text-4xl font-bold text-primary">24h</div>
-                    <div className="text-sm text-gray-600">Resposta Rápida</div>
+            <div className="relative z-10 h-80">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+                className="relative h-full w-full overflow-hidden rounded-xl"
+              >
+                <div className="absolute inset-0 scale-75">
+                  <BackgroundPaths title="70% Desconto" />
+                </div>
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm">
+                  <div className="flex flex-wrap justify-center gap-6">
+                    <div className="flex flex-col items-center px-4">
+                      <div className="text-4xl font-bold text-primary">70%</div>
+                      <div className="text-sm text-gray-600">Redução em Multas</div>
+                    </div>
+                    <div className="flex flex-col items-center px-4 border-l border-gray-200">
+                      <div className="text-4xl font-bold text-primary">100%</div>
+                      <div className="text-sm text-gray-600">Análise Digital</div>
+                    </div>
+                    <div className="flex flex-col items-center px-4 border-l border-gray-200">
+                      <div className="text-4xl font-bold text-primary">24h</div>
+                      <div className="text-sm text-gray-600">Resposta Rápida</div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
             
             {/* Background decorations */}

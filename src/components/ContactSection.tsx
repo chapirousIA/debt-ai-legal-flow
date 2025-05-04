@@ -146,7 +146,7 @@ const ContactSection: React.FC = () => {
               <div className="space-y-6 mb-8">
                 <p className="flex items-start">
                   <span className="mr-3 mt-1">📞</span>
-                  <span>Entre em contato pelos nossos canais de atendimento e receba uma resposta em até 24 horas.</span>
+                  <span>Entre em contato pelos nossos canais de atendimento e receba uma resposta imediata.</span>
                 </p>
                 
                 <p className="flex items-start">

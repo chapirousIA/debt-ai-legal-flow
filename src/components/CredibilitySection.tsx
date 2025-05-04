@@ -34,6 +34,33 @@ const CredibilitySection: React.FC = () => {
     };
   }, []);
 
+  const steps = [
+    {
+      title: "Diagnóstico",
+      description: "Analisamos todas as suas dívidas federais para identificar como você pode reduzi-las. Detectamos erros que podem anular partes da dívida, prazos vencidos e outras oportunidades, calculando os potenciais benefícios – como descontos de até 70%",
+      icon: <FileText className="h-10 w-10 text-primary" />,
+      delay: "100"
+    },
+    {
+      title: "Planejamento",
+      description: "Criamos um plano personalizado, ajustado à sua capacidade financeira, para aproveitar as melhores condições de parcelamento (até 145 vezes) e descontos disponíveis nos editais.",
+      icon: <CheckCircle className="h-10 w-10 text-primary" />,
+      delay: "300"
+    },
+    {
+      title: "Apresentação",
+      description: "Entregamos um relatório claro com todos os benefícios que você pode obter, mostrando como sair da inadimplência com segurança",
+      icon: <FileX className="h-10 w-10 text-primary" />,
+      delay: "500"
+    },
+    {
+      title: "Efetivação",
+      description: "Gerenciamos todo o processo no portal REGULARIZE, desde a adesão até a confirmação do seu acordo, garantindo um caminho tranquilo para você.",
+      icon: <HandShake className="h-10 w-10 text-primary" />,
+      delay: "700"
+    }
+  ];
+
   const testimonials = [
     {
       name: "Ricardo Martins",
@@ -64,42 +91,28 @@ const CredibilitySection: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className={`section-title ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-            Por que Confiar em Nossa Abordagem
+            Descubra Como Resolver Suas Dívidas com Facilidade
           </h2>
-          <p className={`section-subtitle max-w-3xl mx-auto ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '200ms' }}>
-            Nossa metodologia combina experiência jurídica com tecnologia avançada,
-            trazendo resultados consistentes e inovadores.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12 mb-16">
-          <div className={`text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '100ms' }}>
-            <div className="bg-primary/10 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-4">
-              <FileX className="h-10 w-10 text-primary" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+          {steps.map((step, index) => (
+            <div 
+              key={index}
+              className={`glass-card p-6 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+              style={{ animationDelay: `${step.delay}ms` }}
+            >
+              <div className="bg-primary/10 rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                {step.icon}
+              </div>
+              <h3 className="text-xl font-bold text-primary mb-3 text-center">{step.title}</h3>
+              <p className="text-gray-600 text-center">{step.description}</p>
             </div>
-            <div className="text-4xl font-bold text-primary mb-2">98%</div>
-            <p className="text-gray-600">Taxa de sucesso em transações tributárias</p>
-          </div>
-          
-          <div className={`text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '300ms' }}>
-            <div className="bg-primary/10 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="h-10 w-10 text-primary" />
-            </div>
-            <div className="text-4xl font-bold text-primary mb-2">R$ 50M+</div>
-            <p className="text-gray-600">Em dívidas reduzidas nos últimos 2 anos</p>
-          </div>
-          
-          <div className={`text-center ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '500ms' }}>
-            <div className="bg-primary/10 rounded-full p-6 w-24 h-24 flex items-center justify-center mx-auto mb-4">
-              <HandShake className="h-10 w-10 text-primary" />
-            </div>
-            <div className="text-4xl font-bold text-primary mb-2">200+</div>
-            <p className="text-gray-600">Empresas assessoradas com sucesso</p>
-          </div>
+          ))}
         </div>
 
         <div className="text-center mb-12">
-          <h3 className={`text-2xl font-bold text-primary mb-2 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '700ms' }}>
+          <h3 className={`text-2xl font-bold text-primary mb-2 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: '900ms' }}>
             O que Nossos Clientes Dizem
           </h3>
         </div>
@@ -111,7 +124,7 @@ const CredibilitySection: React.FC = () => {
               className={`glass-card overflow-hidden transition-all duration-500 ${
                 isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'
               }`}
-              style={{ animationDelay: `${800 + index * 200}ms` }}
+              style={{ animationDelay: `${1000 + index * 200}ms` }}
             >
               <div className="p-6">
                 <div className="flex mb-4">
@@ -136,7 +149,7 @@ const CredibilitySection: React.FC = () => {
               className={`bg-white h-16 w-32 flex items-center justify-center rounded-lg shadow-sm ${
                 isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'
               }`} 
-              style={{ animationDelay: `${1400 + idx * 100}ms` }}
+              style={{ animationDelay: `${1600 + idx * 100}ms` }}
             >
               <span className="text-gray-400 font-semibold">{logo}</span>
             </div>

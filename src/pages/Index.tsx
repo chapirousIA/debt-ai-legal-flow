@@ -9,6 +9,7 @@ import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 import SimuladorTransacao from '@/components/SimuladorTransacao';
+import QuemSomosSection from '@/components/QuemSomosSection';
 
 const Index: React.FC = () => {
   useEffect(() => {
@@ -64,6 +65,7 @@ const Index: React.FC = () => {
       <main>
         <HeroSection />
         <SimuladorTransacao />
+        <QuemSomosSection />
         <ProblemSection />
         <SolutionSection />
         <CredibilitySection />

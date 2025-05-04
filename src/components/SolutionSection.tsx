@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { FileText, Check, Shield, ArrowRight } from 'lucide-react';
+import { FileText, Check, Shield, ArrowRight, FileX } from 'lucide-react';
 
 const SolutionSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -48,10 +48,10 @@ const SolutionSection: React.FC = () => {
       bgClass: "bg-primary"
     },
     {
-      icon: <Check className="h-10 w-10 text-white" />,
-      title: "Parcelamentos Especiais",
-      description: "Soluções de parcelamento adaptadas à realidade financeira da sua empresa, com prestações reduzidas.",
-      benefits: ["Regularização tributária", "Obtenção de certidões", "Planejamento financeiro"],
+      icon: <FileX className="h-10 w-10 text-white" />,
+      title: "Negócio Jurídico Processual",
+      description: "Soluções personalizadas para acordos processuais com a PGFN, adaptadas às necessidades específicas do seu caso.",
+      benefits: ["Flexibilidade de negociação", "Condições especiais", "Segurança jurídica"],
       bgClass: "bg-gradient-primary"
     }
   ];
