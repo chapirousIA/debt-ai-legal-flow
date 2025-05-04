@@ -37,32 +37,14 @@ const HeroSection: React.FC = () => {
           </div>
           
           <div className="lg:w-1/2 relative h-80 md:h-96">
-            {/* Globe component instead of BackgroundPaths */}
+            {/* Globe positioned to align with the title */}
             <div className="relative w-full h-full">
               <Globe className="top-0 left-0" />
               
-              {/* Statistics overlay */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="bg-white/70 backdrop-blur-sm p-4 rounded-lg flex flex-wrap justify-center gap-6">
-                  <div className="flex flex-col items-center px-4">
-                    <div className="text-4xl font-bold text-primary">70%</div>
-                    <div className="text-sm text-gray-600">Redução em Multas</div>
-                  </div>
-                  <div className="flex flex-col items-center px-4 border-l border-gray-200">
-                    <div className="text-4xl font-bold text-primary">100%</div>
-                    <div className="text-sm text-gray-600">Análise Digital</div>
-                  </div>
-                  <div className="flex flex-col items-center px-4 border-l border-gray-200">
-                    <div className="text-4xl font-bold text-primary">24h</div>
-                    <div className="text-sm text-gray-600">Resposta Rápida</div>
-                  </div>
-                </div>
-              </div>
+              {/* Background decorations */}
+              <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-highlight/20 rounded-full filter blur-3xl -z-10"></div>
+              <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-primary/20 rounded-full filter blur-3xl -z-10"></div>
             </div>
-            
-            {/* Background decorations */}
-            <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-highlight/20 rounded-full filter blur-3xl -z-10"></div>
-            <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-primary/20 rounded-full filter blur-3xl -z-10"></div>
           </div>
         </div>
       </div>
