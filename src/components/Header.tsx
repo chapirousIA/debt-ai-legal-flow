@@ -33,12 +33,12 @@ const Header: React.FC = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Logo */}
+        {/* Logo with doubled dimensions */}
         <a href="#" className="text-primary">
           <img 
             src="/lovable-uploads/31a95e6e-2cd7-434f-b17e-ab9d752c9274.png" 
             alt="Pedrosa Peixoto Advogados" 
-            className="h-16 md:h-20" 
+            className="h-32 md:h-40" 
           />
         </a>
         
