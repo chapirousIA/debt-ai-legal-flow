@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import WhatsAppButton from './WhatsAppButton';
-
 const SimuladorTransacao: React.FC = () => {
   // Estados para os campos do formulário
   const [valorDivida, setValorDivida] = useState('');
@@ -19,7 +18,7 @@ const SimuladorTransacao: React.FC = () => {
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
   const [dataInscricao, setDataInscricao] = useState('');
-  
+
   // Estado para armazenar os resultados da simulação
   const [resultado, setResultado] = useState<any>(null);
   const [simulacoesParcelas, setSimulacoesParcelas] = useState<any>(null);
@@ -43,7 +42,6 @@ const SimuladorTransacao: React.FC = () => {
   // Função para validar o formulário
   const validarFormulario = () => {
     const valorNumerico = valorDivida.replace(/\./g, '').replace(',', '.');
-    
     if (!valorDivida || isNaN(parseFloat(valorNumerico)) || parseFloat(valorNumerico) <= 0) {
       alert('Por favor, informe um valor válido para a dívida.');
       return false;
@@ -76,30 +74,43 @@ const SimuladorTransacao: React.FC = () => {
     // Valores base dos limites
     let limiteDesconto = 0.65; // 65% para contribuintes normais
     let limiteParcelas = 120; // 120 meses para contribuintes normais
-    
+
     // Ajustes de acordo com o tipo de contribuinte
     if (['pessoa-natural', 'microempresa', 'pequeno-porte', 'cooperativa', 'agricultor-familiar'].includes(categoriaContribuinte)) {
       limiteDesconto = 0.70; // 70% para pessoa natural, ME, EPP, cooperativas e agricultores familiares
       limiteParcelas = 145; // 145 meses para pessoa natural, ME, EPP, cooperativas e agricultores familiares
     }
-    
+
     // Restrição para dívidas previdenciárias
     if (tipoDivida === 'previdenciaria') {
       limiteParcelas = 60; // Máximo de 60 meses para dívidas previdenciárias
     }
-    
-    return { limiteDesconto, limiteParcelas };
+    return {
+      limiteDesconto,
+      limiteParcelas
+    };
   };
-  
+
   // Função para calcular os descontos com base na CAPAG
   const calcularDescontosCapag = (limiteDesconto: number) => {
     const descontos = {
-      A: { min: 0, max: 0 },
-      B: { min: 0, max: 0 },
-      C: { min: 0.30, max: 0.40 },
-      D: { min: 0.50, max: limiteDesconto }
+      A: {
+        min: 0,
+        max: 0
+      },
+      B: {
+        min: 0,
+        max: 0
+      },
+      C: {
+        min: 0.30,
+        max: 0.40
+      },
+      D: {
+        min: 0.50,
+        max: limiteDesconto
+      }
     };
-    
     return descontos;
   };
 
@@ -108,21 +119,23 @@ const SimuladorTransacao: React.FC = () => {
     if (!validarFormulario()) return;
 
     // Obtenção dos limites aplicáveis
-    const { limiteDesconto, limiteParcelas } = calcularLimites();
-    
+    const {
+      limiteDesconto,
+      limiteParcelas
+    } = calcularLimites();
+
     // Correção de parcelas se exceder o limite
     let parcelasAplicadas = Math.min(parseInt(parcelas), limiteParcelas);
-    
+
     // Valor da dívida
     const valorOriginal = parseFloat(valorDivida.replace(/\./g, '').replace(',', '.'));
-    
+
     // Cálculo da redução com base no número de parcelas
     let percentualReducao;
-    
+
     // Para pequeno valor (até 60 salários mínimos)
     const valorSalarioMinimo = 1412; // Valor do salário mínimo em 2025
     const limiteContenciosoPequeno = 60 * valorSalarioMinimo;
-    
     if (valorOriginal <= limiteContenciosoPequeno) {
       if (parcelasAplicadas <= 7) {
         percentualReducao = 0.50; // 50% para até 7 parcelas
@@ -154,72 +167,65 @@ const SimuladorTransacao: React.FC = () => {
         }
       }
     }
-    
+
     // Cálculo do valor com desconto
     const valorDesconto = valorOriginal * percentualReducao;
     const valorComDesconto = valorOriginal - valorDesconto;
-    
+
     // Cálculo do valor da entrada (5% ou 6% dependendo do tipo)
     const percentualEntrada = valorOriginal <= limiteContenciosoPequeno ? 0.05 : 0.06;
     const valorEntrada = valorComDesconto * percentualEntrada;
     const numeroPrestacaoEntrada = valorOriginal <= limiteContenciosoPequeno ? 5 : 6;
     const valorPrestacaoEntrada = valorEntrada / numeroPrestacaoEntrada;
-    
+
     // Cálculo do valor de cada parcela (valor com desconto - entrada) / número de parcelas
     const valorParcela = (valorComDesconto - valorEntrada) / parcelasAplicadas;
-    
+
     // Gerar múltiplas simulações de parcelas
     const gerarSimulacoesParcelas = () => {
       const opcoes = [];
-      
+
       // Simulação de até 24 meses
       const parcelas24 = Math.min(24, limiteParcelas);
       const valorParcela24 = (valorComDesconto - valorEntrada) / parcelas24;
-      
+
       // Simulação de 60 meses
       const parcelas60 = Math.min(60, limiteParcelas);
       const valorParcela60 = (valorComDesconto - valorEntrada) / parcelas60;
-      
+
       // Simulação máxima de parcelas
       const valorParcelaMax = (valorComDesconto - valorEntrada) / limiteParcelas;
-      
       opcoes.push({
         prazo: parcelas24,
         valorParcela: valorParcela24,
-        valorTotal: valorEntrada + (valorParcela24 * parcelas24)
+        valorTotal: valorEntrada + valorParcela24 * parcelas24
       });
-      
       if (limiteParcelas >= 60) {
         opcoes.push({
           prazo: parcelas60,
           valorParcela: valorParcela60,
-          valorTotal: valorEntrada + (valorParcela60 * parcelas60)
+          valorTotal: valorEntrada + valorParcela60 * parcelas60
         });
       }
-      
       if (limiteParcelas > 60) {
         opcoes.push({
           prazo: limiteParcelas,
           valorParcela: valorParcelaMax,
-          valorTotal: valorEntrada + (valorParcelaMax * limiteParcelas)
+          valorTotal: valorEntrada + valorParcelaMax * limiteParcelas
         });
       }
-      
       return opcoes;
     };
-    
+
     // Gerar simulações por CAPAG
     const gerarSimulacoesCapag = () => {
       const descontosCapag = calcularDescontosCapag(limiteDesconto);
       const result: Record<string, any> = {};
-      
       for (const [categoria, faixas] of Object.entries(descontosCapag)) {
         const descontoMin = valorOriginal * (faixas as any).min;
         const descontoMax = valorOriginal * (faixas as any).max;
-        
         const valorComDescontoMin = valorOriginal - descontoMin;
         const valorComDescontoMax = valorOriginal - descontoMax;
-        
         result[categoria] = {
           percentualMin: (faixas as any).min * 100,
           percentualMax: (faixas as any).max * 100,
@@ -229,10 +235,9 @@ const SimuladorTransacao: React.FC = () => {
           valorComDescontoMax
         };
       }
-      
       return result;
     };
-    
+
     // Preparação dos resultados
     const novoResultado = {
       valorOriginal,
@@ -248,7 +253,7 @@ const SimuladorTransacao: React.FC = () => {
       limiteDesconto,
       limiteParcelas
     };
-    
+
     // Atualização do estado com os resultados
     setResultado(novoResultado);
     setSimulacoesParcelas(gerarSimulacoesParcelas());
@@ -272,7 +277,7 @@ const SimuladorTransacao: React.FC = () => {
   const handleValorDividaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Remove caracteres não numéricos
     let valor = e.target.value.replace(/\D/g, '');
-    
+
     // Formata o valor para exibição
     if (valor) {
       valor = (parseFloat(valor) / 100).toLocaleString('pt-BR', {
@@ -280,14 +285,12 @@ const SimuladorTransacao: React.FC = () => {
         maximumFractionDigits: 2
       });
     }
-    
     setValorDivida(valor);
   };
 
   // Manipulador para o input de telefone
   const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let valor = e.target.value.replace(/\D/g, '');
-    
     if (valor.length > 0) {
       // Formata como (XX) XXXXX-XXXX
       if (valor.length <= 2) {
@@ -300,27 +303,18 @@ const SimuladorTransacao: React.FC = () => {
         valor = `(${valor.substring(0, 2)}) ${valor.substring(2, 7)}-${valor.substring(7, 11)}`;
       }
     }
-    
     setTelefone(valor);
   };
-
-  return (
-    <section id="simulador" className="py-16 md:py-24 bg-[#f9f9f9]">
+  return <section id="simulador" className="py-16 md:py-24 bg-[#f9f9f9]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="section-title reveal">Simulador de Transação Tributária</h2>
-          <p className="section-subtitle max-w-3xl mx-auto reveal" data-direction="bottom">
-            Simule os descontos possíveis para regularização de sua dívida ativa com a União
-          </p>
-          <p className="text-sm text-gray-600 mt-2 italic max-w-3xl mx-auto">
-            Esta é apenas uma simulação por estimativa baseada nas diversas possibilidades de descontos previstas na legislação.
-            Os valores reais podem variar de acordo com a análise individualizada do seu caso.
-          </p>
+          
+          
         </div>
 
         <div className="max-w-5xl mx-auto">
-          {!mostrarResultado ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {!mostrarResultado ? <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="shadow-md">
                 <CardHeader>
                   <h3 className="text-xl font-semibold text-primary">Dados da Dívida</h3>
@@ -331,25 +325,13 @@ const SimuladorTransacao: React.FC = () => {
                     <Label htmlFor="valor-divida">Valor da Dívida:</Label>
                     <div className="relative mt-1">
                       <span className="absolute left-3 top-2.5 text-gray-500">R$</span>
-                      <Input
-                        id="valor-divida"
-                        type="text"
-                        value={valorDivida}
-                        onChange={handleValorDividaChange}
-                        className="pl-8"
-                        placeholder="0,00"
-                      />
+                      <Input id="valor-divida" type="text" value={valorDivida} onChange={handleValorDividaChange} className="pl-8" placeholder="0,00" />
                     </div>
                   </div>
                   
                   <div>
                     <Label htmlFor="tipo-divida">Tipo da Dívida:</Label>
-                    <select
-                      id="tipo-divida"
-                      value={tipoDivida}
-                      onChange={(e) => setTipoDivida(e.target.value)}
-                      className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
+                    <select id="tipo-divida" value={tipoDivida} onChange={e => setTipoDivida(e.target.value)} className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
                       <option value="nao-previdenciaria">Não Previdenciária</option>
                       <option value="previdenciaria">Previdenciária</option>
                     </select>
@@ -357,12 +339,7 @@ const SimuladorTransacao: React.FC = () => {
                   
                   <div>
                     <Label htmlFor="tipo-contribuinte">Tipo de Contribuinte:</Label>
-                    <select
-                      id="tipo-contribuinte"
-                      value={tipoContribuinte}
-                      onChange={(e) => setTipoContribuinte(e.target.value)}
-                      className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
+                    <select id="tipo-contribuinte" value={tipoContribuinte} onChange={e => setTipoContribuinte(e.target.value)} className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
                       <option value="pessoa-juridica">Pessoa Jurídica</option>
                       <option value="pessoa-fisica">Pessoa Física</option>
                     </select>
@@ -370,12 +347,7 @@ const SimuladorTransacao: React.FC = () => {
                   
                   <div>
                     <Label htmlFor="categoria-contribuinte">Categoria do Contribuinte:</Label>
-                    <select
-                      id="categoria-contribuinte"
-                      value={categoriaContribuinte}
-                      onChange={(e) => setCategoriaContribuinte(e.target.value)}
-                      className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
+                    <select id="categoria-contribuinte" value={categoriaContribuinte} onChange={e => setCategoriaContribuinte(e.target.value)} className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
                       <option value="normal">Empresa Normal</option>
                       <option value="microempresa">Microempresa</option>
                       <option value="pequeno-porte">Empresa de Pequeno Porte</option>
@@ -387,28 +359,12 @@ const SimuladorTransacao: React.FC = () => {
                   
                   <div>
                     <Label htmlFor="data-inscricao">Data de Inscrição da Dívida:</Label>
-                    <Input
-                      id="data-inscricao"
-                      type="date"
-                      value={dataInscricao}
-                      onChange={(e) => setDataInscricao(e.target.value)}
-                      max="2025-05-01"
-                      className="mt-1"
-                    />
+                    <Input id="data-inscricao" type="date" value={dataInscricao} onChange={e => setDataInscricao(e.target.value)} max="2025-05-01" className="mt-1" />
                   </div>
                   
                   <div>
                     <Label htmlFor="parcelas">Número de Parcelas Desejadas:</Label>
-                    <Input
-                      id="parcelas"
-                      type="number"
-                      value={parcelas}
-                      onChange={(e) => setParcelas(e.target.value)}
-                      min="1"
-                      max="145"
-                      className="mt-1"
-                      placeholder="Digite o número de parcelas"
-                    />
+                    <Input id="parcelas" type="number" value={parcelas} onChange={e => setParcelas(e.target.value)} min="1" max="145" className="mt-1" placeholder="Digite o número de parcelas" />
                   </div>
                 </CardContent>
               </Card>
@@ -421,49 +377,22 @@ const SimuladorTransacao: React.FC = () => {
                 <CardContent className="space-y-4">
                   <div>
                     <Label htmlFor="nome">Nome Completo:</Label>
-                    <Input
-                      id="nome"
-                      type="text"
-                      value={nome}
-                      onChange={(e) => setNome(e.target.value)}
-                      className="mt-1"
-                      placeholder="Digite seu nome completo"
-                    />
+                    <Input id="nome" type="text" value={nome} onChange={e => setNome(e.target.value)} className="mt-1" placeholder="Digite seu nome completo" />
                   </div>
                   
                   <div>
                     <Label htmlFor="email">E-mail:</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="mt-1"
-                      placeholder="Digite seu e-mail"
-                    />
+                    <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-1" placeholder="Digite seu e-mail" />
                   </div>
                   
                   <div>
                     <Label htmlFor="telefone">Telefone:</Label>
-                    <Input
-                      id="telefone"
-                      type="text"
-                      value={telefone}
-                      onChange={handleTelefoneChange}
-                      className="mt-1"
-                      placeholder="(00) 00000-0000"
-                      maxLength={15}
-                    />
+                    <Input id="telefone" type="text" value={telefone} onChange={handleTelefoneChange} className="mt-1" placeholder="(00) 00000-0000" maxLength={15} />
                   </div>
                   
                   <div>
                     <Label htmlFor="capag">CAPAG (opcional):</Label>
-                    <select
-                      id="capag"
-                      value={capag}
-                      onChange={(e) => setCapag(e.target.value)}
-                      className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    >
+                    <select id="capag" value={capag} onChange={e => setCapag(e.target.value)} className="w-full mt-1 px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
                       <option value="">Desconhecido</option>
                       <option value="A">A</option>
                       <option value="B">B</option>
@@ -475,10 +404,7 @@ const SimuladorTransacao: React.FC = () => {
                     </p>
                   </div>
                   
-                  <Button 
-                    onClick={calcularSimulacao}
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-4 rounded-lg mt-4"
-                  >
+                  <Button onClick={calcularSimulacao} className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3 px-4 rounded-lg mt-4">
                     <Calculator className="mr-2 h-5 w-5" />
                     Simular Transação
                   </Button>
@@ -492,25 +418,15 @@ const SimuladorTransacao: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-            </div>
-          ) : (
-            <Card className="shadow-lg">
+            </div> : <Card className="shadow-lg">
               <CardHeader className="border-b">
                 <div className="flex justify-between items-center">
                   <h3 className="text-2xl font-bold text-primary">Resultado da Simulação</h3>
                   <div className="print:hidden flex gap-2">
-                    <Button
-                      variant="outline"
-                      onClick={imprimirSimulacao}
-                      className="text-gray-600"
-                    >
+                    <Button variant="outline" onClick={imprimirSimulacao} className="text-gray-600">
                       Imprimir
                     </Button>
-                    <Button
-                      onClick={enviarEmail}
-                      variant="outline"
-                      className="flex items-center text-green-600"
-                    >
+                    <Button onClick={enviarEmail} variant="outline" className="flex items-center text-green-600">
                       <Mail className="mr-1 h-4 w-4" />
                       {enviado ? "E-mail Enviado!" : "Enviar por E-mail"}
                     </Button>
@@ -666,15 +582,9 @@ const SimuladorTransacao: React.FC = () => {
                   </p>
                   
                   <div className="flex flex-col md:flex-row gap-4">
-                    <WhatsAppButton 
-                      text="Falar com um Especialista via WhatsApp" 
-                      className="flex-1 bg-secondary hover:bg-secondary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium"
-                    />
+                    <WhatsAppButton text="Falar com um Especialista via WhatsApp" className="flex-1 bg-secondary hover:bg-secondary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium" />
                     
-                    <a
-                      href={`mailto:contato@pedrosapeixoto.adv.br?subject=Simulação%20de%20Transação%20Tributária&body=Olá,%0A%0ARealizei%20uma%20simulação%20de%20transação%20tributária%20para%20minha%20dívida%20de%20${encodeURIComponent(formatarMoeda(resultado.valorOriginal))}%20e%20gostaria%20de%20receber%20uma%20análise%20personalizada.%0A%0ANome:%20${encodeURIComponent(nome)}%0ATelefone:%20${encodeURIComponent(telefone)}%0A%0AAtenciosamente,%0A${encodeURIComponent(nome)}`}
-                      className="flex-1 bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium"
-                    >
+                    <a href={`mailto:contato@pedrosapeixoto.adv.br?subject=Simulação%20de%20Transação%20Tributária&body=Olá,%0A%0ARealizei%20uma%20simulação%20de%20transação%20tributária%20para%20minha%20dívida%20de%20${encodeURIComponent(formatarMoeda(resultado.valorOriginal))}%20e%20gostaria%20de%20receber%20uma%20análise%20personalizada.%0A%0ANome:%20${encodeURIComponent(nome)}%0ATelefone:%20${encodeURIComponent(telefone)}%0A%0AAtenciosamente,%0A${encodeURIComponent(nome)}`} className="flex-1 bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium">
                       <Mail className="mr-2 h-5 w-5" />
                       Receber Análise por E-mail
                     </a>
@@ -696,11 +606,7 @@ const SimuladorTransacao: React.FC = () => {
                 </div>
                 
                 <div className="print:hidden mt-4 text-right">
-                  <Button
-                    variant="link"
-                    onClick={() => setMostrarResultado(false)}
-                    className="text-primary hover:text-primary/80 font-medium"
-                  >
+                  <Button variant="link" onClick={() => setMostrarResultado(false)} className="text-primary hover:text-primary/80 font-medium">
                     Voltar para o formulário
                   </Button>
                 </div>
@@ -709,12 +615,9 @@ const SimuladorTransacao: React.FC = () => {
               <CardFooter className="text-center text-gray-500 text-sm border-t pt-4">
                 <p>© 2025 Simulador de Transação Tributária | Com base nos Editais PGDAU da PGFN</p>
               </CardFooter>
-            </Card>
-          )}
+            </Card>}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default SimuladorTransacao;
