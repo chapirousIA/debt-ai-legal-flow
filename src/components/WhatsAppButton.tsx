@@ -2,6 +2,20 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
+// Add TypeScript declaration for gtag
+declare global {
+  interface Window {
+    gtag: (
+      command: string, 
+      action: string, 
+      params?: { 
+        send_to: string;
+        [key: string]: any;
+      }
+    ) => void;
+  }
+}
+
 interface WhatsAppButtonProps {
   text?: string;
   className?: string;
