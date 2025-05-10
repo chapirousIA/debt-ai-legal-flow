@@ -5,10 +5,13 @@ import WhatsAppButton from './WhatsAppButton';
 import CircuitAnimation from './CircuitAnimation';
 import { motion } from 'framer-motion';
 import { Globe } from './ui/globe';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const HeroSection: React.FC = () => {
+  const isMobile = useIsMobile();
+  
   return (
-    <section className="relative overflow-hidden bg-white" id="hero">
+    <section className="relative overflow-hidden bg-white pt-32 md:pt-0" id="hero">
       <div className="absolute inset-0 circuit-bg opacity-10 z-0"></div>
       
       <div className="container-section relative z-10">
@@ -37,14 +40,24 @@ const HeroSection: React.FC = () => {
           </div>
           
           <div className="lg:w-1/2 relative h-80 md:h-96">
-            {/* Globe positioned to align with the title */}
-            <div className="relative w-full h-full">
-              <Globe className="top-0 left-0" />
-              
-              {/* Background decorations */}
-              <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-highlight/20 rounded-full filter blur-3xl -z-10"></div>
-              <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-primary/20 rounded-full filter blur-3xl -z-10"></div>
-            </div>
+            {/* Only show Globe on desktop or position it differently on mobile */}
+            {!isMobile ? (
+              <div className="relative w-full h-full">
+                <Globe className="top-0 left-0" />
+                
+                {/* Background decorations */}
+                <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-highlight/20 rounded-full filter blur-3xl -z-10"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-primary/20 rounded-full filter blur-3xl -z-10"></div>
+              </div>
+            ) : (
+              <div className="hidden md:block relative w-full h-full">
+                <Globe className="top-0 left-0" />
+                
+                {/* Background decorations */}
+                <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-highlight/20 rounded-full filter blur-3xl -z-10"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-48 h-48 bg-primary/20 rounded-full filter blur-3xl -z-10"></div>
+              </div>
+            )}
           </div>
         </div>
       </div>

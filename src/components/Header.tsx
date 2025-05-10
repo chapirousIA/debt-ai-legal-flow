@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 import WhatsAppButton from './WhatsAppButton';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -33,12 +35,12 @@ const Header: React.FC = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Logo with doubled dimensions */}
+        {/* Logo with responsive dimensions */}
         <a href="#" className="text-primary">
           <img 
             src="/lovable-uploads/31a95e6e-2cd7-434f-b17e-ab9d752c9274.png" 
             alt="Pedrosa Peixoto Advogados" 
-            className="h-32 md:h-40" 
+            className={`${isMobile ? 'h-16' : 'h-32 md:h-40'}`}
           />
         </a>
         
