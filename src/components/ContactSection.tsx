@@ -101,7 +101,7 @@ const ContactSection: React.FC = () => {
               
               <div>
                 <button type="submit" disabled={isSubmitting} className={`w-full btn-primary ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}>
-                  {isSubmitting ? 'Enviando...' : 'Solicitar Consulta Gratuita'}
+                  {isSubmitting ? 'Enviando...' : 'Solicitar Consulta'}
                 </button>
               </div>
             </form>
