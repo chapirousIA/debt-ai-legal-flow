@@ -1,3 +1,4 @@
+
 import React from 'react';
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -59,9 +60,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-white/20 mt-10 pt-6 text-center text-white/60 text-sm">
           <p>&copy; {currentYear} Advocacia Tributária. Todos os direitos reservados.</p>
           <p className="mt-2">
-            <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
-            {' • '}
-            <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
+            <a href="https://pedrosapeixoto.adv.br/politica-de-privacidade/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Política de Privacidade & Termos de Uso</a>
           </p>
         </div>
       </div>
