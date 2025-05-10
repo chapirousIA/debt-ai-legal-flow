@@ -29,7 +29,7 @@ const HeroSection: React.FC = () => {
                 href="#contato"
                 className="btn-primary flex items-center justify-center"
               >
-                Consulta Gratuita
+                Faça seu Diagnóstico
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>
               <WhatsAppButton text="Fale Conosco" className="btn-secondary" />
