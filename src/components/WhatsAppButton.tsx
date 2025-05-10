@@ -15,15 +15,32 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   variant = 'default',
   fullWidth = false
 }) => {
-  const phoneNumber = "5585994059821"; // Updated phone number
-  const message = encodeURIComponent("Vim do site e gostaria de um diagnóstico"); // Updated message
+  const phoneNumber = "5585994059821";
+  const message = encodeURIComponent("Vim do site e gostaria de um diagnóstico");
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${message}`;
+  
+  // Track WhatsApp conversion with Google Ads
+  const handleClick = (event: React.MouseEvent) => {
+    // Check if gtag function exists
+    if (typeof window !== 'undefined' && window.gtag) {
+      // Send conversion tracking event to Google Ads
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-11015613922/eNaSCKDfi-0YEOLb04Qp'
+      });
+      
+      // Log for debugging
+      console.log('WhatsApp conversion event triggered');
+    } else {
+      console.warn('Google Tag Manager not loaded');
+    }
+  };
   
   return (
     <a
       href={whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       className={cn(
         "flex items-center justify-center transition-all duration-300",
         variant === 'default' ? 'bg-secondary hover:bg-secondary/90 text-white' : '',
