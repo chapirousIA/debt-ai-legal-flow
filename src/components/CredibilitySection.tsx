@@ -1,10 +1,13 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Star, FileText, CheckCircle } from 'lucide-react';
 import FileX from './FileX';
 import HandShake from './HandShake';
+
 const CredibilitySection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
@@ -16,15 +19,18 @@ const CredibilitySection: React.FC = () => {
       rootMargin: '0px',
       threshold: 0.3
     });
+
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
+
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
       }
     };
   }, []);
+
   const steps = [{
     title: "Diagnóstico",
     description: "Analisamos todas as suas dívidas federais para identificar como você pode reduzi-las. Detectamos erros que podem anular partes da dívida, prazos vencidos e outras oportunidades, calculando os potenciais benefícios – como descontos de até 70%",
@@ -46,6 +52,7 @@ const CredibilitySection: React.FC = () => {
     icon: <HandShake className="h-10 w-10 text-primary" />,
     delay: "700"
   }];
+
   const testimonials = [{
     name: "Ricardo Martins",
     company: "Comércio Eletrônico Ltda",
@@ -62,39 +69,59 @@ const CredibilitySection: React.FC = () => {
     text: "A abordagem tecnológica para análise das nossas dívidas identificou inconsistências que nem sabíamos existir. Conseguimos reduzir significativamente o valor devido e negociar um parcelamento adequado ao nosso orçamento.",
     stars: 5
   }];
-  return <section ref={sectionRef} className="bg-white py-16 md:py-24" id="credibilidade">
+
+  return (
+    <section ref={sectionRef} className="bg-white py-16 md:py-24" id="credibilidade">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className={`section-title ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>Diagnóstico e Gestão do Passivo Tributário</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {steps.map((step, index) => <div key={index} className={`glass-card p-6 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{
-          animationDelay: `${step.delay}ms`
-        }}>
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className={`glass-card p-6 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+              style={{
+                animationDelay: `${step.delay}ms`
+              }}
+            >
               <div className="bg-primary/10 rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto mb-4">
                 {step.icon}
               </div>
               <h3 className="text-xl font-bold text-primary mb-3 text-center">{step.title}</h3>
               <p className="text-gray-600 text-center">{step.description}</p>
-            </div>)}
+            </div>
+          ))}
         </div>
 
         <div className="text-center mb-12">
-          <h3 className={`text-2xl font-bold text-primary mb-2 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`} style={{
-          animationDelay: '900ms'
-        }}>
+          <h3
+            className={`text-2xl font-bold text-primary mb-2 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}
+            style={{
+              animationDelay: '900ms'
+            }}
+          >
             O que Nossos Clientes Dizem
           </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => <div key={index} className={`glass-card overflow-hidden transition-all duration-500 ${isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'}`} style={{
-          animationDelay: `${1000 + index * 200}ms`
-        }}>
+          {testimonials.map((testimonial, index) => (
+            <div
+              key={index}
+              className={`glass-card overflow-hidden transition-all duration-500 ${
+                isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'
+              }`}
+              style={{
+                animationDelay: `${1000 + index * 200}ms`
+              }}
+            >
               <div className="p-6">
                 <div className="flex mb-4">
-                  {[...Array(testimonial.stars)].map((_, i) => <Star key={i} className="h-5 w-5 text-highlight fill-highlight" />)}
+                  {[...Array(testimonial.stars)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 text-highlight fill-highlight" />
+                  ))}
                 </div>
                 <p className="italic text-gray-600 mb-4">"{testimonial.text}"</p>
                 <div>
@@ -102,17 +129,14 @@ const CredibilitySection: React.FC = () => {
                   <p className="text-sm text-gray-500">{testimonial.company}</p>
                 </div>
               </div>
-            </div>)}
+            </div>
+          ))}
         </div>
-
-        <div className="flex flex-wrap justify-center mt-16 items-center gap-8">
-          {['OAB', 'IBDT', 'IBA', 'ABIT'].map((logo, idx) => <div key={idx} className={`bg-white h-16 w-32 flex items-center justify-center rounded-lg shadow-sm ${isVisible ? 'animate-fade-in opacity-100' : 'opacity-0'}`} style={{
-          animationDelay: `${1600 + idx * 100}ms`
-        }}>
-              <span className="text-gray-400 font-semibold">{logo}</span>
-            </div>)}
-        </div>
+        
+        {/* A seção de logos foi removida daqui */}
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default CredibilitySection;
