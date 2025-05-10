@@ -15,8 +15,8 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   variant = 'default',
   fullWidth = false
 }) => {
-  const phoneNumber = "5511999999999"; // Replace with actual phone number
-  const message = encodeURIComponent("Olá! Gostaria de saber mais sobre os serviços de resolução de dívidas tributárias.");
+  const phoneNumber = "5585994059821"; // Updated phone number
+  const message = encodeURIComponent("Vim do site e gostaria de um diagnóstico"); // Updated message
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${message}`;
   
   return (
