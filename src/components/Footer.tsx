@@ -1,11 +1,7 @@
-
 import React from 'react';
-
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  
-  return (
-    <footer className="bg-primary text-white">
+  return <footer className="bg-primary text-white">
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
@@ -46,15 +42,15 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-white/80">
               <li className="flex items-start">
                 <span className="mr-2">📍</span>
-                <span>Av. Paulista, 1000, São Paulo - SP</span>
+                <span>ITC Tower - Rua Ary Barroso, 70, Salas 1011/1012</span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">📞</span>
-                <span>(11) 99999-9999</span>
+                <span>85 9405-9821 (whatsapp)</span>
               </li>
               <li className="flex items-start">
                 <span className="mr-2">✉️</span>
-                <span>contato@escritorio.adv.br</span>
+                <span>contato@pedrosapeixoto.adv.br</span>
               </li>
             </ul>
           </div>
@@ -69,8 +65,6 @@ const Footer: React.FC = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
