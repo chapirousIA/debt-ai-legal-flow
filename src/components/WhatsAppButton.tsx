@@ -37,13 +37,18 @@ const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({
   const handleClick = (event: React.MouseEvent) => {
     // Check if gtag function exists
     if (typeof window !== 'undefined' && window.gtag) {
-      // Send conversion tracking event to Google Ads
+      // Send first conversion tracking event to Google Ads
       window.gtag('event', 'conversion', {
         'send_to': 'AW-11015613922/eNaSCKDfi-0YEOLb04Qp'
       });
       
+      // Send second conversion tracking event to Google Ads (Botao Whatsapp Fale Conosco)
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-11015613922/tgyICKjWq8AZEOLb04Qp'
+      });
+      
       // Log for debugging
-      console.log('WhatsApp conversion event triggered');
+      console.log('WhatsApp conversion events triggered');
     } else {
       console.warn('Google Tag Manager not loaded');
     }
