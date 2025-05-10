@@ -1,9 +1,11 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
 import WhatsAppButton from './WhatsAppButton';
+
 const formSchema = z.object({
   name: z.string().min(3, {
     message: 'Nome precisa ter no mínimo 3 caracteres'
@@ -18,18 +20,16 @@ const formSchema = z.object({
     message: 'Mensagem muito curta'
   }).max(500)
 });
+
 type FormValues = z.infer<typeof formSchema>;
+
 const ContactSection: React.FC = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const {
     register,
     handleSubmit,
     reset,
-    formState: {
-      errors
-    }
+    formState: { errors }
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,19 +40,43 @@ const ContactSection: React.FC = () => {
     }
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    console.log('Form submitted:', data);
-    toast({
-      title: "Mensagem enviada com sucesso!",
-      description: "Entraremos em contato em breve."
-    });
-    reset();
-    setIsSubmitting(false);
+    try {
+      // Create email content with form data
+      const emailContent = `
+        Nome: ${data.name}
+        Email: ${data.email}
+        Telefone: ${data.phone}
+        Mensagem: ${data.message}
+      `;
+
+      // Send the form data via email using mailto link
+      const mailtoLink = `mailto:contato@pedrosapeixoto.adv.br?subject=Novo contato do site&body=${encodeURIComponent(emailContent)}`;
+      
+      // Open the default email client with the pre-filled email
+      window.open(mailtoLink, '_blank');
+      
+      // Show success message
+      toast({
+        title: "Mensagem enviada com sucesso!",
+        description: "Entraremos em contato em breve."
+      });
+      reset();
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast({
+        title: "Erro ao enviar mensagem",
+        description: "Por favor, tente novamente ou entre em contato por WhatsApp.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
   return <section className="py-16 md:py-24 relative" id="contato">
       <div className="absolute inset-0 circuit-bg opacity-5"></div>
       
@@ -135,4 +159,5 @@ const ContactSection: React.FC = () => {
       </div>
     </section>;
 };
+
 export default ContactSection;
