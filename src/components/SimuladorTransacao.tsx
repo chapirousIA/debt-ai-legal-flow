@@ -5,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
+import { useToast } from '@/hooks/use-toast';
 import WhatsAppButton from './WhatsAppButton';
+
 const SimuladorTransacao: React.FC = () => {
+  const { toast } = useToast();
   // Estados para os campos do formulário
   const [valorDivida, setValorDivida] = useState('');
   const [tipoDivida, setTipoDivida] = useState('nao-previdenciaria');
@@ -261,11 +264,131 @@ const SimuladorTransacao: React.FC = () => {
     setMostrarResultado(true);
   };
 
-  // Função para simular o envio por e-mail
-  const enviarEmail = () => {
-    // Aqui seria implementada a lógica real de envio de e-mail
-    setEnviado(true);
-    setTimeout(() => setEnviado(false), 3000);
+  // Função para enviar o relatório por e-mail
+  const enviarEmail = async () => {
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      toast({
+        title: "Email inválido",
+        description: "Por favor, informe um email válido para receber o relatório.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setEnviado(true);
+
+      // Prepare data for email
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('nome', nome);
+      formData.append('telefone', telefone);
+      formData.append('valorDivida', valorDivida);
+      formData.append('tipoDivida', tipoDivida);
+      formData.append('tipoContribuinte', tipoContribuinte);
+      formData.append('categoriaContribuinte', categoriaContribuinte);
+      formData.append('parcelas', parcelas);
+      
+      // Add simulation results to form data
+      if (resultado) {
+        formData.append('valorOriginal', resultado.valorOriginal.toString());
+        formData.append('percentualReducao', (resultado.percentualReducao * 100).toFixed(0));
+        formData.append('valorDesconto', resultado.valorDesconto.toString());
+        formData.append('valorComDesconto', resultado.valorComDesconto.toString());
+        formData.append('parcelasAplicadas', resultado.parcelasAplicadas.toString());
+        formData.append('valorParcela', resultado.valorParcela.toString());
+        formData.append('valorEntrada', resultado.valorEntrada.toString());
+        formData.append('numeroPrestacaoEntrada', resultado.numeroPrestacaoEntrada.toString());
+        formData.append('valorPrestacaoEntrada', resultado.valorPrestacaoEntrada.toString());
+      }
+      
+      formData.append('_subject', 'Simulação de Transação Tributária');
+      formData.append('_template', 'table');
+      formData.append('_cc', 'contato@pedrosapeixoto.adv.br'); // Send a copy to the law firm
+      
+      // Send form data using FormSubmit service
+      const response = await fetch(`https://formsubmit.co/${email}`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error('Falha ao enviar o email');
+      }
+      
+      toast({
+        title: "Email enviado com sucesso!",
+        description: "O relatório da simulação foi enviado para seu email."
+      });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast({
+        title: "Erro ao enviar email",
+        description: "Não foi possível enviar o relatório. Por favor, tente novamente.",
+        variant: "destructive"
+      });
+    } finally {
+      setTimeout(() => setEnviado(false), 3000);
+    }
+  };
+
+  // Função para enviar análise por email (botão da seção de resultados)
+  const enviarAnaliseEmail = async () => {
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      toast({
+        title: "Email inválido",
+        description: "Por favor, informe um email válido para receber a análise.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      // Prepare data for email
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('nome', nome);
+      formData.append('telefone', telefone);
+      formData.append('valorDivida', valorDivida);
+      formData.append('tipoDivida', tipoDivida);
+      formData.append('tipoContribuinte', tipoContribuinte);
+      formData.append('categoriaContribuinte', categoriaContribuinte);
+      
+      // Add simulation results
+      if (resultado) {
+        formData.append('valorOriginal', resultado.valorOriginal.toString());
+        formData.append('percentualReducao', (resultado.percentualReducao * 100).toFixed(0));
+        formData.append('valorDesconto', resultado.valorDesconto.toString());
+        formData.append('valorComDesconto', resultado.valorComDesconto.toString());
+      }
+      
+      formData.append('_subject', 'Solicitação de Análise Personalizada - Transação Tributária');
+      formData.append('_template', 'table');
+      formData.append('_to', 'contato@pedrosapeixoto.adv.br');
+      formData.append('_cc', email); // Send a copy to the client
+      
+      // Send form data using FormSubmit service
+      const response = await fetch('https://formsubmit.co/contato@pedrosapeixoto.adv.br', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error('Falha ao enviar a solicitação');
+      }
+      
+      toast({
+        title: "Solicitação enviada!",
+        description: "Um especialista entrará em contato em breve com sua análise personalizada."
+      });
+    } catch (error) {
+      console.error('Error sending request:', error);
+      toast({
+        title: "Erro ao enviar solicitação",
+        description: "Não foi possível enviar sua solicitação. Por favor, tente novamente.",
+        variant: "destructive"
+      });
+    }
   };
 
   // Função para imprimir a simulação
@@ -584,10 +707,13 @@ const SimuladorTransacao: React.FC = () => {
                   <div className="flex flex-col md:flex-row gap-4">
                     <WhatsAppButton text="Falar com um Especialista via WhatsApp" className="flex-1 bg-secondary hover:bg-secondary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium" />
                     
-                    <a href={`mailto:contato@pedrosapeixoto.adv.br?subject=Simulação%20de%20Transação%20Tributária&body=Olá,%0A%0ARealizei%20uma%20simulação%20de%20transação%20tributária%20para%20minha%20dívida%20de%20${encodeURIComponent(formatarMoeda(resultado.valorOriginal))}%20e%20gostaria%20de%20receber%20uma%20análise%20personalizada.%0A%0ANome:%20${encodeURIComponent(nome)}%0ATelefone:%20${encodeURIComponent(telefone)}%0A%0AAtenciosamente,%0A${encodeURIComponent(nome)}`} className="flex-1 bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium">
+                    <Button 
+                      onClick={enviarAnaliseEmail} 
+                      className="flex-1 bg-primary hover:bg-primary/90 text-white py-3 px-4 rounded-lg flex items-center justify-center font-medium"
+                    >
                       <Mail className="mr-2 h-5 w-5" />
                       Receber Análise por E-mail
-                    </a>
+                    </Button>
                   </div>
                   
                   <p className="mt-4 text-sm text-gray-600">
