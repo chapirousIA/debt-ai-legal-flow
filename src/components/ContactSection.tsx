@@ -46,18 +46,23 @@ const ContactSection: React.FC = () => {
 
     try {
       // Create email content with form data
-      const emailContent = `
-        Nome: ${data.name}
-        Email: ${data.email}
-        Telefone: ${data.phone}
-        Mensagem: ${data.message}
-      `;
-
-      // Send the form data via email using mailto link
-      const mailtoLink = `mailto:contato@pedrosapeixoto.adv.br?subject=Novo contato do site&body=${encodeURIComponent(emailContent)}`;
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('phone', data.phone);
+      formData.append('message', data.message);
+      formData.append('_subject', 'Novo contato do site');
+      formData.append('_to', 'contato@pedrosapeixoto.adv.br');
       
-      // Open the default email client with the pre-filled email
-      window.open(mailtoLink, '_blank');
+      // Send form data using FormSubmit service (no account needed)
+      const response = await fetch('https://formsubmit.co/contato@pedrosapeixoto.adv.br', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error('Falha ao enviar o formulário');
+      }
       
       // Show success message
       toast({
